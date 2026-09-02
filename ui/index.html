@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hoverin DroneOps AI | Flight intelligence</title>
-    <meta name="description" content="Evidence-based flight log intelligence for drone operations." />
+    <meta name="description" content="Evidence-based drone telemetry and flight intelligence dashboard." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -14,49 +14,270 @@
     <div class="app-shell">
       <aside class="sidebar">
         <div class="brand"><span class="brand-mark">✦</span><span>Hoverin DroneOps <b>AI</b></span></div>
-        <div class="workspace-switcher"><span class="avatar">NS</span><span><small>WORKSPACE</small>Northstar Aerial</span><span class="chevron">⌄</span></div>
+        <div class="workspace-switcher">
+          <span class="avatar">NS</span>
+          <span><small>WORKSPACE</small>Northstar Aerial</span>
+          <span class="chevron">⌄</span>
+        </div>
+
         <nav class="nav-list" aria-label="Main navigation">
           <a class="nav-item active" href="#overview"><span>◈</span> Overview</a>
           <a class="nav-item" href="#flight-logs"><span>▣</span> Flight logs <em>12</em></a>
           <a class="nav-item" href="#anomalies"><span>⌁</span> Anomalies <em class="alert-count">3</em></a>
           <a class="nav-item" href="#reports"><span>▤</span> Reports</a>
-          <a class="nav-item" href="#user-management"><span>♙</span> User management <em>4</em></a>
+          <a class="nav-item" href="#user-management"><span>♙</span> User access <em>4</em></a>
         </nav>
+
         <div class="sidebar-bottom">
           <a class="nav-item" href="#settings"><span>⚙</span> Settings</a>
-          <div class="help-box"><span class="help-icon">?</span><div><strong>Need a hand?</strong><small>Read the flight guide</small></div><span>↗</span></div>
-          <div class="user-row"><span class="avatar user-avatar">AC</span><span><strong>Alex Chen</strong><small>Operator</small></span><span class="more">•••</span></div>
+          <div class="help-box">
+            <span class="help-icon">?</span>
+            <div><strong>Need a hand?</strong><small>Read the flight guide</small></div>
+            <span>↗</span>
+          </div>
+          <div class="user-row">
+            <span class="avatar user-avatar">AC</span>
+            <span><strong>Alex Chen</strong><small>Operator</small></span>
+            <span class="more">•••</span>
+          </div>
         </div>
       </aside>
 
       <main class="main-content" id="overview">
-        <header class="topbar"><div class="breadcrumbs"><span>Workspace</span><b>/</b><strong>Overview</strong></div><div class="top-actions"><span class="sync-status"><i></i> All systems operational</span><button class="icon-button" aria-label="Notifications">♧<span class="notification-dot"></span></button><button class="primary-button small" id="uploadTopButton">+ Upload log</button></div></header>
+        <header class="topbar">
+          <div class="breadcrumbs"><span>Workspace</span><b>/</b><strong>Overview</strong></div>
+          <div class="top-actions">
+            <span class="sync-status"><i></i> All systems operational</span>
+            <button class="icon-button" aria-label="Notifications">♧<span class="notification-dot"></span></button>
+            <button class="primary-button small" id="uploadTopButton">+ Upload log</button>
+          </div>
+        </header>
+
         <div class="page-content">
-          <section class="intro"><div><p class="eyebrow">THURSDAY, AUGUST 20, 2026</p><h1>Good morning, Alex <span>↗</span></h1><p class="intro-copy">Your flight intelligence briefing is ready.</p></div><div class="date-pill">Last 30 days <span>⌄</span></div></section>
+          <section class="intro">
+            <div>
+              <p class="eyebrow">THURSDAY, AUGUST 20, 2026</p>
+              <h1>Good morning, Alex <span>↗</span></h1>
+              <p class="intro-copy">Your drone intelligence briefing is ready.</p>
+            </div>
+            <div class="date-pill">Last 30 days <span>⌄</span></div>
+          </section>
 
           <section class="metric-grid" aria-label="Flight metrics">
-            <article class="metric-card"><div class="metric-heading"><span>FLIGHTS ANALYZED</span><span class="metric-icon blue">↗</span></div><strong>248</strong><p><b class="up">↑ 12.4%</b> vs previous period</p><div class="mini-bars blue-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></article>
-            <article class="metric-card"><div class="metric-heading"><span>FLIGHT HOURS</span><span class="metric-icon teal">◷</span></div><strong>186.5 <small>hrs</small></strong><p><b class="up">↑ 8.7%</b> vs previous period</p><div class="mini-bars teal-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></article>
-            <article class="metric-card"><div class="metric-heading"><span>ANOMALIES DETECTED</span><span class="metric-icon coral">⌁</span></div><strong>17</strong><p><b class="down">↓ 5.2%</b> vs previous period</p><div class="mini-bars coral-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></article>
-            <article class="metric-card health-card"><div class="metric-heading"><span>FLEET HEALTH</span><span class="metric-icon green">✓</span></div><strong>94<small>%</small></strong><p><b class="up">↑ 2.1%</b> vs previous period</p><div class="health-progress"><i></i></div></article>
+            <article class="metric-card">
+              <div class="metric-heading"><span>FLIGHTS ANALYZED</span><span class="metric-icon blue">↗</span></div>
+              <strong>248</strong>
+              <p><b class="up">↑ 12.4%</b> vs previous period</p>
+              <div class="mini-bars blue-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            </article>
+            <article class="metric-card">
+              <div class="metric-heading"><span>TELEMETRY POINTS</span><span class="metric-icon teal">◷</span></div>
+              <strong>3.8M</strong>
+              <p><b class="up">↑ 8.7%</b> vs previous period</p>
+              <div class="mini-bars teal-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            </article>
+            <article class="metric-card">
+              <div class="metric-heading"><span>ANOMALIES</span><span class="metric-icon coral">⌁</span></div>
+              <strong>17</strong>
+              <p><b class="down">↓ 5.2%</b> vs previous period</p>
+              <div class="mini-bars coral-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            </article>
+            <article class="metric-card health-card">
+              <div class="metric-heading"><span>FLEET HEALTH</span><span class="metric-icon green">✓</span></div>
+              <strong>94<small>%</small></strong>
+              <p><b class="up">↑ 2.1%</b> vs previous period</p>
+              <div class="health-progress"><i></i></div>
+            </article>
           </section>
 
-          <section class="action-section" id="flight-logs"><div class="section-header"><div><p class="eyebrow">FLIGHT LOGS</p><h2>Bring a flight into focus</h2></div><button class="text-button">View all logs <span>→</span></button></div>
-            <div class="upload-card" id="dropZone"><div class="upload-symbol">↑</div><div class="upload-copy"><h3>Upload a flight log</h3><p>Drop a .csv, .json, or .log file here, or <button class="inline-button" id="browseButton">browse files</button></p><small>We automatically map telemetry, detect anomalies, and surface evidence.</small></div><input id="fileInput" type="file" accept=".csv,.json,.log" hidden /><button class="secondary-button" id="demoButton">Analyze demo log <span>↗</span></button></div>
+          <section class="action-section" id="flight-logs">
+            <div class="section-header">
+              <div>
+                <p class="eyebrow">FLIGHT LOGS</p>
+                <h2>Bring a flight into focus</h2>
+              </div>
+              <button class="text-button">View all logs <span>→</span></button>
+            </div>
+
+            <div class="upload-card" id="dropZone">
+              <div class="upload-symbol">↑</div>
+              <div class="upload-copy">
+                <h3>Upload a flight log</h3>
+                <p>Drop a .csv, .json, or .log file here, or <button type="button" class="inline-button" id="browseButton">browse files</button></p>
+                <small>We automatically map telemetry channels, detect anomalies, and surface evidence.</small>
+              </div>
+              <input id="fileInput" type="file" accept=".csv,.json,.log" multiple hidden />
+              <button type="button" class="secondary-button" id="demoButton">Analyze demo log <span>↗</span></button>
+            </div>
           </section>
 
-          <section class="lower-grid">
-            <article class="panel recent-panel"><div class="panel-header"><div><p class="eyebrow">RECENT ACTIVITY</p><h2>Latest flight logs</h2></div><button class="icon-button">•••</button></div><div class="table-wrap"><table><thead><tr><th>FLIGHT</th><th>DATE</th><th>DRONE</th><th>STATUS</th><th></th></tr></thead><tbody><tr><td><span class="flight-id">FL-248</span><small>Survey / coastal sector</small></td><td>Today, 09:42</td><td>DJI M350 RTK</td><td><span class="status-chip warning"><i></i> 2 anomalies</span></td><td><button class="row-arrow">→</button></td></tr><tr><td><span class="flight-id">FL-247</span><small>Infrastructure inspection</small></td><td>Yesterday, 16:18</td><td>DJI Mavic 3E</td><td><span class="status-chip good"><i></i> Clear</span></td><td><button class="row-arrow">→</button></td></tr><tr><td><span class="flight-id">FL-246</span><small>Mapping / quarry north</small></td><td>Aug 18, 11:05</td><td>Autel EVO II</td><td><span class="status-chip warning"><i></i> 1 anomaly</span></td><td><button class="row-arrow">→</button></td></tr></tbody></table></div></article>
-            <article class="panel anomaly-panel" id="anomalies"><div class="panel-header"><div><p class="eyebrow">NEEDS ATTENTION</p><h2>Priority anomalies <span class="count-badge">3</span></h2></div><button class="text-button">Review all <span>→</span></button></div><div class="anomaly-list"><button class="anomaly-item" data-question="What caused the motor temperature spike on FL-248?"><span class="anomaly-glyph critical">!</span><span><strong>Motor temperature spike</strong><small>FL-248 · 09:42 today</small></span><span class="severity">High</span></button><button class="anomaly-item" data-question="Explain the GPS accuracy drop on FL-241."><span class="anomaly-glyph medium">⌁</span><span><strong>GPS accuracy degradation</strong><small>FL-241 · Aug 16</small></span><span class="severity medium-text">Medium</span></button><button class="anomaly-item" data-question="Was the battery imbalance on FL-239 safe?"><span class="anomaly-glyph low">↕</span><span><strong>Battery cell imbalance</strong><small>FL-239 · Aug 15</small></span><span class="severity low-text">Low</span></button></div></article>
+          <section class="overview-grid">
+            <article class="panel flight-panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">CURRENT FLIGHT</p>
+                  <h2>Flight profile</h2>
+                </div>
+                <span class="status-chip good" id="flightStatus">Complete</span>
+              </div>
+
+              <div class="flight-summary">
+                <div class="flight-main">
+                  <span class="small-label">Flight ID</span>
+                  <strong id="flightId">FL-249</strong>
+                </div>
+                <div class="flight-main">
+                  <span class="small-label">Mission</span>
+                  <strong id="missionName">Coastal survey</strong>
+                </div>
+              </div>
+
+              <div class="meta-grid">
+                <div class="meta-item"><span>Drone</span><strong id="droneName">DJI M350 RTK</strong></div>
+                <div class="meta-item"><span>Battery</span><strong id="batteryName">TB65 / 98% health</strong></div>
+                <div class="meta-item"><span>Start</span><strong id="flightDate">Today, 09:42</strong></div>
+                <div class="meta-item"><span>Duration</span><strong id="durationValue">36 min</strong></div>
+                <div class="meta-item"><span>Telemetry</span><strong id="telemetryCount">18,420 points</strong></div>
+                <div class="meta-item"><span>Source</span><strong id="sourceFormat">CSV</strong></div>
+              </div>
+
+              <div class="channels-box">
+                <div class="box-header">
+                  <span class="eyebrow">TELEMETRY CHANNELS</span>
+                  <button type="button" class="text-button small-button" id="exportTelemetryButton">Export <span>→</span></button>
+                </div>
+                <ul id="channelList" class="channel-list"></ul>
+              </div>
+            </article>
+
+            <article class="panel anomaly-panel" id="anomalies">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">NEEDS ATTENTION</p>
+                  <h2>Priority anomalies <span class="count-badge" id="anomalyCount">3</span></h2>
+                </div>
+                <button class="text-button">Review all <span>→</span></button>
+              </div>
+              <div id="anomalyList" class="anomaly-list"></div>
+            </article>
           </section>
 
-          <section class="user-management" id="user-management"><div class="section-header"><div><p class="eyebrow">WORKSPACE ACCESS</p><h2>User management</h2></div><button class="primary-button small" id="addUserButton">+ Add user</button></div><p class="section-description">Manage who can view flight logs, review anomalies, and generate reports.</p><form class="user-form" id="userForm" hidden><div><label for="userName">Full name</label><input id="userName" required placeholder="e.g. Maya Patel" /></div><div><label for="userEmail">Email</label><input id="userEmail" type="email" required placeholder="name@company.com" /></div><div><label for="userRole">Role</label><select id="userRole"><option>Operator</option><option>Engineer</option><option>Maintenance</option><option>Administrator</option></select></div><button class="secondary-button" type="submit">Invite user <span>↗</span></button></form><div class="user-table"><div class="user-table-head"><span>MEMBER</span><span>ROLE</span><span>STATUS</span><span></span></div><div class="user-row-item"><span class="member-cell"><span class="avatar user-avatar">AC</span><span><strong>Alex Chen</strong><small>alex@northstaraerial.com</small></span></span><span>Operator</span><span class="status-chip good"><i></i> Active</span><button class="row-arrow" aria-label="More options for Alex Chen">•••</button></div><div class="user-row-item"><span class="member-cell"><span class="avatar member-blue">MP</span><span><strong>Maya Patel</strong><small>maya@northstaraerial.com</small></span></span><span>Engineer</span><span class="status-chip good"><i></i> Active</span><button class="row-arrow" aria-label="More options for Maya Patel">•••</button></div><div class="user-row-item"><span class="member-cell"><span class="avatar member-coral">JR</span><span><strong>Jon Reyes</strong><small>jon@northstaraerial.com</small></span></span><span>Maintenance</span><span class="status-chip warning"><i></i> Pending</span><button class="row-arrow" aria-label="More options for Jon Reyes">•••</button></div></div></section>
+          <section class="user-management" id="user-management">
+            <div class="section-header">
+              <div>
+                <p class="eyebrow">WORKSPACE ACCESS</p>
+                <h2>User management</h2>
+              </div>
+              <button type="button" class="primary-button small" id="addUserButton">+ Add user</button>
+            </div>
 
-          <section class="assistant-panel" id="reports"><div class="assistant-top"><div class="assistant-copy"><div class="assistant-orb">✦</div><div><p class="eyebrow">DRONEOPS ASSISTANT</p><h2>Ask anything about your flights</h2><p>Get clear answers grounded in your telemetry and maintenance history.</p></div></div><button class="secondary-button" id="reportButton">Generate report <span>↓</span></button></div><div class="suggestion-row"><button data-question="Summarize my fleet health this month">Summarize my fleet health this month <span>↗</span></button><button data-question="Which flights need maintenance attention?">Which flights need maintenance attention? <span>↗</span></button></div><div class="assistant-input"><input id="questionInput" placeholder="Ask about a flight, anomaly, or trend..." /><button id="askButton" aria-label="Ask assistant">↑</button></div><div class="answer" id="answer" hidden></div></section>
-          <footer><span>Hoverin DroneOps AI <b>v1.4.0</b></span><span>Data refreshed 2 minutes ago · <a href="#settings">Privacy & security</a></span></footer>
+            <p class="section-description">Manage who can review flight logs, investigate anomalies, and generate reports.</p>
+
+            <form class="user-form" id="userForm" hidden>
+              <div>
+                <label for="userName">Full name</label>
+                <input id="userName" required placeholder="e.g. Maya Patel" />
+              </div>
+              <div>
+                <label for="userEmail">Email</label>
+                <input id="userEmail" type="email" required placeholder="name@company.com" />
+              </div>
+              <div>
+                <label for="userRole">Role</label>
+                <select id="userRole">
+                  <option>Operator</option>
+                  <option>Engineer</option>
+                  <option>Maintenance</option>
+                  <option>Administrator</option>
+                </select>
+              </div>
+              <button type="submit" class="secondary-button">Invite user <span>↗</span></button>
+            </form>
+
+            <div class="user-table">
+              <div class="user-table-head">
+                <span>MEMBER</span>
+                <span>ROLE</span>
+                <span>STATUS</span>
+                <span></span>
+              </div>
+
+              <div class="user-row-item">
+                <span class="member-cell"><span class="avatar user-avatar">AC</span><span><strong>Alex Chen</strong><small>alex@northstaraerial.com</small></span></span>
+                <span>Operator</span>
+                <span class="status-chip good"><i></i> Active</span>
+                <div class="row-menu-wrap">
+                  <button type="button" class="row-arrow" aria-label="More options for Alex Chen">•••</button>
+                </div>
+              </div>
+
+              <div class="user-row-item">
+                <span class="member-cell"><span class="avatar member-blue">MP</span><span><strong>Maya Patel</strong><small>maya@northstaraerial.com</small></span></span>
+                <span>Engineer</span>
+                <span class="status-chip good"><i></i> Active</span>
+                <div class="row-menu-wrap">
+                  <button type="button" class="row-arrow" aria-label="More options for Maya Patel">•••</button>
+                </div>
+              </div>
+
+              <div class="user-row-item">
+                <span class="member-cell"><span class="avatar member-coral">JR</span><span><strong>Jon Reyes</strong><small>jon@northstaraerial.com</small></span></span>
+                <span>Maintenance</span>
+                <span class="status-chip warning"><i></i> Pending</span>
+                <div class="row-menu-wrap">
+                  <button type="button" class="row-arrow" aria-label="More options for Jon Reyes">•••</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="assistant-panel" id="reports">
+            <div class="assistant-top">
+              <div class="assistant-copy">
+                <div class="assistant-orb">✦</div>
+                <div>
+                  <p class="eyebrow">DRONEOPS ASSISTANT</p>
+                  <h2>Ask anything about your flights</h2>
+                  <p>Get clear answers grounded in telemetry, events, and maintenance evidence.</p>
+                </div>
+              </div>
+              <button type="button" class="secondary-button" id="reportButton">Generate report <span>↓</span></button>
+            </div>
+
+            <div class="suggestion-row">
+              <button type="button" data-question="Summarize the latest flight and major anomalies.">Summarize the latest flight and major anomalies. <span>↗</span></button>
+              <button type="button" data-question="Which flights need maintenance attention?">Which flights need maintenance attention? <span>↗</span></button>
+            </div>
+
+            <div class="assistant-input">
+              <input id="questionInput" placeholder="Ask about a flight, anomaly, or trend..." />
+              <button type="button" id="askButton" aria-label="Ask assistant">↑</button>
+            </div>
+            <div class="answer" id="answer" hidden></div>
+          </section>
+
+          <footer>
+            <span>Hoverin DroneOps AI <b>v1.4.0</b></span>
+            <span>Data refreshed 2 minutes ago · <a href="#settings">Privacy & security</a></span>
+          </footer>
         </div>
       </main>
     </div>
-    <script src="main.js"></script>
+
+    <!-- User Action Modal -->
+    <div class="modal-overlay" id="userActionModal" hidden>
+      <div class="modal-popup">
+        <div class="modal-header">
+          <strong id="modalUserName">User Name</strong>
+          <button type="button" class="modal-close" aria-label="Close">✕</button>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="modal-action edit-modal-action">Edit User</button>
+          <button type="button" class="modal-action delete-modal-action" style="color: #c25d4b;">Delete User</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="main.js?v=2"></script>
   </body>
 </html>

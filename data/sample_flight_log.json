@@ -1,0 +1,62 @@
+{
+  "flight_id": "FL-SAMPLE-001",
+  "aircraft": {
+    "model": "DJI M350 RTK",
+    "serial": "SAMPLE-M350-001",
+    "firmware": "demo-1.4.2"
+  },
+  "mission": "Coastal survey",
+  "start_time": "2026-08-25T10:00:00Z",
+  "end_time": "2026-08-25T10:00:50Z",
+  "telemetry": [
+    {
+      "timestamp": "2026-08-25T10:00:00Z",
+      "battery": {"voltage_v": 50.2, "current_a": 2.1, "cell_delta_v": 0.012},
+      "propulsion": {"motor1_output_pct": 0, "motor1_temp_c": 31, "esc1_temp_c": 29},
+      "navigation": {"gps_satellites": 18, "gps_hdop": 0.7},
+      "motion": {"imu_accel_rms_g": 0.04, "roll_deg": 0, "pitch_deg": 0, "yaw_deg": 90},
+      "estimator": {"ekf_pos_innovation_m": 0.08},
+      "flight": {"altitude_m": 0, "velocity_mps": 0, "mode": "ARMED", "failsafe": false},
+      "link": {"rc_link_quality_pct": 99},
+      "environment": {"ambient_temp_c": 24},
+      "mission_waypoint": 0
+    },
+    {
+      "timestamp": "2026-08-25T10:00:25Z",
+      "battery": {"voltage_v": 48.9, "current_a": 19.8, "cell_delta_v": 0.041},
+      "propulsion": {"motor1_output_pct": 82, "motor1_temp_c": 72, "esc1_temp_c": 61},
+      "navigation": {"gps_satellites": 15, "gps_hdop": 1.1},
+      "motion": {"imu_accel_rms_g": 0.19, "roll_deg": 0.9, "pitch_deg": 1.2, "yaw_deg": 95},
+      "estimator": {"ekf_pos_innovation_m": 0.31},
+      "flight": {"altitude_m": 31.8, "velocity_mps": 9.2, "mode": "CRUISE", "failsafe": false},
+      "link": {"rc_link_quality_pct": 91},
+      "environment": {"ambient_temp_c": 26},
+      "mission_waypoint": 4
+    },
+    {
+      "timestamp": "2026-08-25T10:00:30Z",
+      "battery": {"voltage_v": 48.7, "current_a": 21.4, "cell_delta_v": 0.058},
+      "propulsion": {"motor1_output_pct": 86, "motor1_temp_c": 78, "esc1_temp_c": 67},
+      "navigation": {"gps_satellites": 12, "gps_hdop": 1.8},
+      "motion": {"imu_accel_rms_g": 0.31, "roll_deg": 1.4, "pitch_deg": 1.4, "yaw_deg": 96},
+      "estimator": {"ekf_pos_innovation_m": 0.62},
+      "flight": {"altitude_m": 32.0, "velocity_mps": 9.0, "mode": "CRUISE", "failsafe": false},
+      "link": {"rc_link_quality_pct": 84},
+      "environment": {"ambient_temp_c": 26},
+      "mission_waypoint": 4
+    },
+    {
+      "timestamp": "2026-08-25T10:00:35Z",
+      "battery": {"voltage_v": 48.6, "current_a": 20.1, "cell_delta_v": 0.049},
+      "propulsion": {"motor1_output_pct": 74, "motor1_temp_c": 74, "esc1_temp_c": 63},
+      "navigation": {"gps_satellites": 9, "gps_hdop": 2.8},
+      "motion": {"imu_accel_rms_g": 0.27, "roll_deg": 1.0, "pitch_deg": 0.8, "yaw_deg": 96.5},
+      "estimator": {"ekf_pos_innovation_m": 0.51},
+      "flight": {"altitude_m": 30.5, "velocity_mps": 7.2, "mode": "RETURN", "failsafe": true},
+      "link": {"rc_link_quality_pct": 72},
+      "environment": {"ambient_temp_c": 26},
+      "mission_waypoint": 5
+    }
+  ],
+  "notes": "Synthetic fixture. Values intentionally include correlated motor, GPS, vibration, EKF, battery, and RC-link events for detector testing."
+}
