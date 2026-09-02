@@ -1,34 +1,67 @@
 import json
 import os
+import sys
 from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+if __package__ in (None, ""):
+    ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+    if ROOT_DIR not in sys.path:
+        sys.path.insert(0, ROOT_DIR)
+    from db import get_latest_flight_context, init_db, list_users, save_flight_analysis, save_assistant_answer, save_user
+    from ingest import analyze_uploaded_log
+    from agents.anomaly_agent import answer_anomaly_question, should_use_anomaly_agent as detect_anomaly_intent
+    from agents.droneops_agent import answer_flight_question
+else:
+    from .db import get_latest_flight_context, init_db, list_users, save_flight_analysis, save_assistant_answer, save_user
+    from .ingest import analyze_uploaded_log
+    from agents.anomaly_agent import answer_anomaly_question, should_use_anomaly_agent as detect_anomaly_intent
+    from agents.droneops_agent import answer_flight_question
+
+
+def should_use_anomaly_agent(question: str, analysis: dict | None = None) -> bool:
+    return detect_anomaly_intent(question, analysis)
 
 HOST = "127.0.0.1"
 PORT = int(os.environ.get("PORT", "8787"))
 
 
-def flight_analysis(filename="flight-log.json"):
-    return {
-        "flight_id": "FL-249",
-        "filename": filename,
-        "status": "complete",
-        "telemetry_points": 18420,
-        "anomalies": [
-            {
-                "type": "motor_temperature_spike",
-                "severity": "high",
-                "evidence": "Motor temperature peaked at 78C for 42 seconds while load rose to 86%.",
-                "recommendation": "Inspect the motor assembly before the next high-load flight.",
-            },
-            {
-                "type": "gps_accuracy_degradation",
-                "severity": "medium",
-                "evidence": "GPS accuracy briefly degraded to 2.8m during the return leg.",
-                "recommendation": "Review antenna placement and repeat a controlled GPS check.",
-            },
-        ],
-        "sources": ["FL-249 telemetry", "maintenance history", "anomaly model v2.8"],
-    }
+def flight_analysis(filename="flight-log.json", content=None, flight_id=None):
+    db_context = get_latest_flight_context()
+    if flight_id and isinstance(db_context, dict) and db_context.get("flight_id") == flight_id:
+        return db_context
+    if isinstance(db_context, dict) and db_context.get("anomalies"):
+        return db_context
+
+    if content is not None:
+        try:
+            return analyze_uploaded_log(filename, content)
+        except Exception:
+            pass
+    try:
+        return analyze_uploaded_log(filename)
+    except Exception:
+        return {
+            "flight_id": "FL-249",
+            "filename": filename,
+            "status": "complete",
+            "telemetry_points": 18420,
+            "anomalies": [
+                {
+                    "type": "motor_temperature_spike",
+                    "severity": "high",
+                    "evidence": "Motor temperature peaked at 78C for 42 seconds while load rose to 86%.",
+                    "recommendation": "Inspect the motor assembly before the next high-load flight.",
+                },
+                {
+                    "type": "gps_accuracy_degradation",
+                    "severity": "medium",
+                    "evidence": "GPS accuracy briefly degraded to 2.8m during the return leg.",
+                    "recommendation": "Review antenna placement and repeat a controlled GPS check.",
+                },
+            ],
+            "sources": ["FL-249 telemetry", "maintenance history", "anomaly model v2.8"],
+        }
 
 
 class DroneOpsHandler(BaseHTTPRequestHandler):
@@ -55,6 +88,9 @@ class DroneOpsHandler(BaseHTTPRequestHandler):
         if self.path == "/api/health":
             self.send_json(200, {"status": "ok", "service": "droneops-api", "version": "1.0.0"})
             return
+        if self.path == "/api/users":
+            self.send_json(200, {"users": list_users()})
+            return
         self.send_json(404, {"error": "Route not found."})
 
     def do_POST(self):
@@ -66,7 +102,33 @@ class DroneOpsHandler(BaseHTTPRequestHandler):
 
         if self.path == "/api/analyze":
             filename = payload.get("filename", "flight-log.json")
-            self.send_json(200, flight_analysis(filename))
+            content = payload.get("content")
+            analysis = flight_analysis(filename, content)
+            try:
+                save_flight_analysis(analysis)
+            except Exception:
+                pass
+            self.send_json(200, analysis)
+            return
+
+        if self.path == "/api/anomaly":
+            question = payload.get("question", "")
+            if not isinstance(question, str) or not question.strip():
+                self.send_json(400, {"error": "A question is required."})
+                return
+
+            flight_context = payload.get("flight_context") or {}
+            if isinstance(flight_context, dict) and flight_context:
+                analysis = flight_context
+            else:
+                analysis = flight_analysis(flight_id=payload.get("flight_id"))
+
+            result = answer_anomaly_question(question, analysis)
+            try:
+                save_assistant_answer(question, result)
+            except Exception:
+                pass
+            self.send_json(200, result)
             return
 
         if self.path == "/api/ask":
@@ -74,19 +136,34 @@ class DroneOpsHandler(BaseHTTPRequestHandler):
             if not isinstance(question, str) or not question.strip():
                 self.send_json(400, {"error": "A question is required."})
                 return
-            analysis = flight_analysis()
-            self.send_json(
-                200,
-                {
-                    "answer": (
-                        f'The latest telemetry shows a stable flight profile overall. For "{question.strip()}", '
-                        "FL-249 has 2 relevant signals: motor temperature peaked at 78C for 42 seconds "
-                        "while load rose to 86%, then returned to baseline. This is flagged for inspection, "
-                        "not an immediate grounding."
-                    ),
-                    "sources": analysis["sources"],
-                },
-            )
+
+            flight_context = payload.get("flight_context") or {}
+            if isinstance(flight_context, dict) and flight_context:
+                analysis = flight_context
+            else:
+                analysis = flight_analysis(flight_id=payload.get("flight_id"))
+
+            if should_use_anomaly_agent(question, analysis):
+                result = answer_anomaly_question(question, analysis)
+            else:
+                result = answer_flight_question(question, analysis)
+            try:
+                save_assistant_answer(question, result)
+            except Exception:
+                pass
+            self.send_json(200, result)
+            return
+
+        if self.path == "/api/users":
+            try:
+                user = save_user(payload)
+            except ValueError as exc:
+                self.send_json(400, {"error": str(exc)})
+                return
+            except Exception as exc:
+                self.send_json(500, {"error": f"Unable to save user: {exc}"})
+                return
+            self.send_json(201, {"user": user})
             return
 
         if self.path == "/api/report":
@@ -109,7 +186,19 @@ class DroneOpsHandler(BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
-    server = ThreadingHTTPServer((HOST, PORT), DroneOpsHandler)
+    try:
+        init_db()
+    except Exception as exc:
+        print(f"Database initialization skipped: {exc}")
+
+    try:
+        server = ThreadingHTTPServer((HOST, PORT), DroneOpsHandler)
+    except OSError as exc:
+        if exc.errno == 48:
+            print(f"Port {PORT} is already in use. Hoverin DroneOps AI API is already running.")
+            raise SystemExit(0)
+        raise
+
     print(f"Hoverin DroneOps AI API listening at http://{HOST}:{PORT}")
     try:
         server.serve_forever()

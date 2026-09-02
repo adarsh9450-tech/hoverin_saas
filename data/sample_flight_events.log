@@ -1,0 +1,11 @@
+2026-08-25T10:00:00Z INFO flight=FL-SAMPLE-001 aircraft=SAMPLE-M350-001 system=armed mode=ARMED
+2026-08-25T10:00:05Z INFO flight=FL-SAMPLE-001 event=takeoff altitude_m=12.4
+2026-08-25T10:00:25Z WARN flight=FL-SAMPLE-001 event=motor_temperature_rising motor=1 temperature_c=72 load_pct=82
+2026-08-25T10:00:30Z WARN flight=FL-SAMPLE-001 event=motor_temperature_spike motor=1 temperature_c=78 load_pct=86 duration_s=5
+2026-08-25T10:00:30Z WARN flight=FL-SAMPLE-001 event=gps_accuracy_degradation satellites=12 hdop=1.8
+2026-08-25T10:00:30Z WARN flight=FL-SAMPLE-001 event=ekf_innovation_high position_innovation_m=0.62
+2026-08-25T10:00:30Z WARN flight=FL-SAMPLE-001 event=vibration_high imu_accel_rms_g=0.31
+2026-08-25T10:00:35Z WARN flight=FL-SAMPLE-001 event=rc_link_degraded link_quality_pct=72
+2026-08-25T10:00:35Z WARN flight=FL-SAMPLE-001 event=failsafe_triggered mode=RETURN reason=link_quality
+2026-08-25T10:00:45Z INFO flight=FL-SAMPLE-001 event=landing altitude_m=8.2
+2026-08-25T10:00:50Z INFO flight=FL-SAMPLE-001 event=disarmed
